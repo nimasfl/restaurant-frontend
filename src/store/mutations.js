@@ -1,12 +1,15 @@
-import AuthService from "@/plugins/auth-service";
-
 export default {
-  login: (state, token) => {
-    AuthService.setToken(token);
+  login: (state, user) => {
     state.isAuthenticated = true;
+    console.log(user);
+    state.loggedInUser = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+    };
   },
   logout: (state) => {
-    AuthService.removeToken();
     state.isAuthenticated = false;
+    state.loggedInUser = null;
   },
 };

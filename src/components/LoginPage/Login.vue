@@ -15,6 +15,7 @@
           :rules="rules"
           label="Password"
           v-model="password"
+          type="password"
           outlined
           color="primary"
           validate-on-blur
@@ -46,7 +47,6 @@ export default {
           username: this.username,
           password: this.password,
         });
-        await this.$router.push({ name: "Home" });
         this.rules = [];
       });
     },

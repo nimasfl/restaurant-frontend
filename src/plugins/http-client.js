@@ -1,26 +1,23 @@
 import axios from "axios";
-import AuthService from "@/plugins/auth-service";
+import * as https from "https";
 
 const httpClient = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://localhost:5000",
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
+  withCredentials: true,
 });
-const authInterceptor = (config) => {
-  if (AuthService.hasToken()) {
-    config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
-  }
-  return config;
-};
 
-const fulfillResponseInterceptor = (response) => Promise.resolve(response);
+const fulfillResponseInterceptor = (response) => Promise.resolve(response.data);
 
 const catchResponseInterceptor = (error) => {
   if (error?.response?.status === 401) {
-    AuthService.logout();
+    window.location.href = "/login";
   }
   throw error;
 };
 
-httpClient.interceptors.request.use(authInterceptor);
 httpClient.interceptors.response.use(
   fulfillResponseInterceptor,
   catchResponseInterceptor

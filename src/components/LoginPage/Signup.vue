@@ -22,6 +22,7 @@
           :rules="rules"
           label="Password"
           v-model="password"
+          type="password"
           outlined
           color="primary"
           validate-on-blur

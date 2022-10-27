@@ -25,6 +25,8 @@
           Logout
         </v-btn>
       </v-container>
+      <v-icon left>mdi-account</v-icon>
+      <h3>{{ loggedInUser.name }}</h3>
     </v-app-bar>
     <v-main class="mainBackgroundColor">
       <v-container>
@@ -61,7 +63,7 @@ export default {
     ],
   }),
   computed: {
-    ...mapGetters(["isAuthenticated"]),
+    ...mapGetters(["isAuthenticated", "loggedInUser"]),
   },
   methods: {
     ...mapActions(["logout"]),
