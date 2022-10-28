@@ -23,6 +23,9 @@ const catchResponseInterceptor = (error) => {
       window.location.href = "/login";
     }
   }
+  if (error?.response?.status === 422) {
+    alert(error?.response?.data?.message);
+  }
 };
 
 httpClient.interceptors.response.use(
