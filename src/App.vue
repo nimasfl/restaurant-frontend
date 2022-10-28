@@ -7,9 +7,6 @@
       :color="$vuetify.theme.dark ? 'backgroundColor' : 'primary'"
       v-if="isAuthenticated && isInitiated"
     >
-      <v-btn fixed text fab @click="switchTheme">
-        <v-icon>mdi-theme-light-dark</v-icon>
-      </v-btn>
       <v-container class="py-0 fill-height" fluid>
         <h1 class="font-weight-black">My Restaurant</h1>
         <v-spacer></v-spacer>
@@ -20,15 +17,18 @@
           :label="item.label"
           :icon="item.icon"
         />
-        <v-spacer></v-spacer>
         <v-spacer />
-        <v-btn @click="logout" text rounded color="primary">
+        <v-btn @click="logout" text rounded color="primary" class="mr-8">
           <v-icon class="mx-1">mdi-logout-variant</v-icon>
           Logout
         </v-btn>
+        <v-icon left>mdi-account</v-icon>
+        <h3>{{ loggedInUser.name }}</h3>
+        <v-spacer />
+        <v-btn text fab @click="switchTheme">
+          <v-icon>mdi-theme-light-dark</v-icon>
+        </v-btn>
       </v-container>
-      <v-icon left>mdi-account</v-icon>
-      <h3>{{ loggedInUser.name }}</h3>
     </v-app-bar>
     <v-main class="mainBackgroundColor" v-if="isInitiated">
       <v-container>
