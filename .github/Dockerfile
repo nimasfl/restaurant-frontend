@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as base
 
 WORKDIR /app
 
@@ -8,7 +8,12 @@ ENV USE_SSL="false"
 COPY package*.json ./
 
 RUN npm install
-RUN npm install -g @vue/cli
+RUN npm run build
 
-EXPOSE 8080
-CMD [ "npm", "run", "serve" ]
+FROM nginx
+
+WORKDIR /usr/share/nginx/html/
+COPY --from=base /app/build  /usr/share/nginx/html/
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
