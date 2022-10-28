@@ -2,7 +2,7 @@
   <v-card color="backgroundColor darken-1">
     <v-row>
       <v-col cols="2">
-        <v-img height="100" contain src="/food.jpg" />
+        <v-img height="100" contain :src="imageUrl" />
       </v-col>
       <v-col cols="4" align-self="center">
         <v-row>

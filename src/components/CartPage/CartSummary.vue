@@ -19,6 +19,7 @@
       class="py-5 my-5"
     >
       <CartItem
+        :imageUrl="cartItems.imageUrl"
         :isLoading="isLoading"
         :id="cartItem.id"
         :food-name="cartItem.foodName"
