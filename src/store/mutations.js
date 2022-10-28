@@ -27,4 +27,10 @@ export default {
   setCartItems(state, payload) {
     state.cartItems = payload;
   },
+  setOrders(state, payload) {
+    state.orders = payload;
+  },
+  setAddress(state, payload) {
+    state.address = payload;
+  },
 };

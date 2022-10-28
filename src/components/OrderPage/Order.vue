@@ -5,8 +5,11 @@
       <v-card-subtitle> {{ createdOn | parseDate }}</v-card-subtitle>
       <v-card-text>
         <div :key="item.id" v-for="item in items">
-          {{ item.name }} x {{ item.count }}
+          {{ item.foodName }} x {{ item.count }} ({{ item.totalPrice }}$)
         </div>
+        <div>Shipping (10$)</div>
+        <v-divider class="my-2" />
+        Total Price: {{ totalPrice + 10 }}$
       </v-card-text>
       <v-card-actions class="mx-2">Address: {{ address }}</v-card-actions>
     </v-card>
@@ -17,16 +20,17 @@
 export default {
   name: "Order",
   props: {
-    id: Number,
+    id: String,
     index: Number,
-    createdOn: Date,
+    createdOn: String,
+    totalPrice: Number,
     items: Array,
     address: String,
   },
   filters: {
     parseDate: (value) => {
       if (!value) return "";
-      return value.toLocaleString().replace(",", "");
+      return new Date(value).toLocaleString().replace(",", "");
     },
   },
 };

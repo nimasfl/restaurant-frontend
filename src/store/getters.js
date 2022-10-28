@@ -6,4 +6,6 @@ export default {
   selectedFilter: (state) => state.selectedFilter,
   isLoading: (state) => state.isLoading,
   cartItems: (state) => state.cartItems,
+  orders: (state) => state.orders,
+  address: (state) => state.address,
 };

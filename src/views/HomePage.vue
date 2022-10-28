@@ -1,17 +1,31 @@
 <template>
   <v-row>
     <v-col cols="3">
-      <v-sheet color="backgroundColor" rounded="lg" class="px-4 pb-4 pt-1">
-        <v-radio-group @change="selectFilter" :value="selectedFilter">
+      <v-sheet color="backgroundColor" rounded="lg" class="px-4 py-0">
+        <v-radio-group
+          @change="selectFilter"
+          :value="selectedFilter"
+          class="mt-0"
+        >
           <v-radio
             v-for="filter in filters"
-            class="my-8"
+            class="my-4"
             :key="filter"
             :value="filter"
             :label="filter"
             color="primary"
           />
         </v-radio-group>
+      </v-sheet>
+      <v-sheet color="transparent" rounded="lg" class="pa-0 d-flex">
+        <v-btn
+          color="backgroundColor"
+          width="100%"
+          :to="{ name: 'Cart' }"
+          class="my-6"
+        >
+          Submit Request
+        </v-btn>
       </v-sheet>
     </v-col>
 

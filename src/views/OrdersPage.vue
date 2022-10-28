@@ -7,7 +7,9 @@
   >
     <v-row>
       <Order
-        v-for="order in orders"
+        v-for="(order, index) in orders"
+        :index="index"
+        :total-price="order.totalPrice"
         :key="order.id"
         cols="4"
         :id="order.id"
@@ -21,32 +23,20 @@
 
 <script>
 import Order from "@/components/OrderPage/Order";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "OrderPage",
   components: { Order },
-  data: () => ({
-    orders: [
-      {
-        id: 1,
-        createdOn: new Date(),
-        items: [
-          { id: 1, name: "item1", quantity: 4 },
-          { id: 2, name: "item2", quantity: 8 },
-        ],
-        address: "123 Main Street, New York, NY 10030",
-      },
-      {
-        id: 2,
-        createdOn: new Date(),
-        items: [
-          { id: 3, name: "item1", quantity: 4 },
-          { id: 4, name: "item2", quantity: 8 },
-        ],
-        address: "123 Main Street, New York, NY 10030",
-      },
-    ],
-  }),
+  computed: {
+    ...mapGetters(["orders"]),
+  },
+  methods: {
+    ...mapActions(["getOrders"]),
+  },
+  async mounted() {
+    await this.getOrders();
+  },
 };
 </script>
 

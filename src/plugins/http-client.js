@@ -13,11 +13,16 @@ const fulfillResponseInterceptor = (response) => Promise.resolve(response.data);
 
 const catchResponseInterceptor = (error) => {
   if (error?.response?.status === 401) {
+    if (
+      window.location.href.toLowerCase().includes("/login") &&
+      !error.request.responseURL.toLowerCase().includes("whoami")
+    ) {
+      alert("Check your credentials and try again");
+    }
     if (!window.location.href.toLowerCase().includes("/login")) {
       window.location.href = "/login";
     }
   }
-  throw error;
 };
 
 httpClient.interceptors.response.use(
