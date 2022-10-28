@@ -2,7 +2,7 @@ import axios from "axios";
 import * as https from "https";
 
 const httpClient = axios.create({
-  baseURL: "https://localhost:5000",
+  baseURL: process.env.VUE_APP_API,
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
   }),
