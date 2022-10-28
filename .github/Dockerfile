@@ -5,9 +5,10 @@ WORKDIR /app
 ENV VUE_APP_API="https://restaurant-api.nimasfl.ir"
 ENV USE_SSL="false"
 
-COPY package*.json ./
+COPY . .
 
 RUN npm install
+
 RUN npm run build
 RUN ls /app
 
