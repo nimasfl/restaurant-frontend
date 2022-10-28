@@ -2,14 +2,16 @@
   <v-row>
     <v-col cols="3">
       <v-sheet color="backgroundColor" rounded="lg" class="px-4 pb-4 pt-1">
-        <v-checkbox
-          v-for="n in 5"
-          :key="n"
-          :label="'some shit ' + n"
-          color="primary"
-        />
-        <v-divider class="my-2"></v-divider>
-        <v-list-item-title> Reset Filters </v-list-item-title>
+        <v-radio-group @change="selectFilter" :value="selectedFilter">
+          <v-radio
+            v-for="filter in filters"
+            class="my-8"
+            :key="filter"
+            :value="filter"
+            :label="filter"
+            color="primary"
+          />
+        </v-radio-group>
       </v-sheet>
     </v-col>
 
@@ -21,31 +23,17 @@
         class="px-4 py-6"
       >
         <v-row>
-          <v-col
-            v-for="n in 15"
-            :key="n"
-            cols="12"
-            xl="4"
-            lg="4"
-            md="6"
-            sm="12"
-          >
-            <v-card color="backgroundColor darken-1">
-              <v-img
-                height="250"
-                src="/food.jpg"
-                :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
-              ></v-img>
-              <v-card-title>Double Burger</v-card-title>
-              <v-card-title class="pt-0">25$</v-card-title>
-              <v-card-actions>
-                <v-btn color="btnPrimary">
-                  <v-icon left>mdi-cart-plus</v-icon>
-                  Add to cart
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
+          <Food
+            @change="changeCartItem"
+            v-for="food in foods"
+            :isLoading="isLoading"
+            :id="food.id"
+            :key="food.id"
+            :count="food.count"
+            :image-url="food.imageUrl"
+            :name="food.name"
+            :price="food.price"
+          />
         </v-row>
       </v-sheet>
     </v-col>
@@ -53,16 +41,33 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import Food from "@/components/HomePage/Food";
 
 export default {
   name: "HomePage",
-  components: {},
+  components: { Food },
   computed: {
-    ...mapGetters(["isAuthenticated"]),
+    ...mapGetters([
+      "isAuthenticated",
+      "foods",
+      "filters",
+      "selectedFilter",
+      "isLoading",
+    ]),
   },
   methods: {
-    ...mapMutations(["Login", "Logout"]),
+    ...mapMutations(["Login", "Logout", "selectFilter"]),
+    ...mapActions(["getFoods", "getFilters", "changeCartItem"]),
+  },
+  async mounted() {
+    await this.getFoods();
+    await this.getFilters();
+  },
+  watch: {
+    async selectedFilter() {
+      await this.getFoods();
+    },
   },
 };
 </script>

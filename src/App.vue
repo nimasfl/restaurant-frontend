@@ -1,14 +1,16 @@
 <template>
   <v-app>
+    <div v-if="!isInitiated"></div>
     <v-app-bar
       app
+      class="px-16"
       :color="$vuetify.theme.dark ? 'backgroundColor' : 'primary'"
-      v-if="isAuthenticated"
+      v-if="isAuthenticated && isInitiated"
     >
       <v-btn fixed text fab @click="switchTheme">
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
-      <v-container class="py-0 fill-height">
+      <v-container class="py-0 fill-height" fluid>
         <h1 class="font-weight-black">My Restaurant</h1>
         <v-spacer></v-spacer>
         <MenuItem
@@ -28,7 +30,7 @@
       <v-icon left>mdi-account</v-icon>
       <h3>{{ loggedInUser.name }}</h3>
     </v-app-bar>
-    <v-main class="mainBackgroundColor">
+    <v-main class="mainBackgroundColor" v-if="isInitiated">
       <v-container>
         <router-view />
       </v-container>
@@ -44,6 +46,7 @@ export default {
   name: "App",
   components: { MenuItem },
   data: () => ({
+    isInitiated: false,
     menuItems: [
       {
         to: "/cart",
@@ -72,18 +75,23 @@ export default {
       localStorage.setItem("isDark", this.$vuetify.theme.dark ? "1" : "0");
     },
   },
-  beforeCreate() {
-    let isDark = localStorage.getItem("isDark");
-    if (isDark === null) {
-      localStorage.setItem("isDark", "1");
-      isDark = "1";
-    }
-    this.$vuetify.theme.dark = isDark === "1";
+  async beforeCreate() {
+    try {
+      let isDark = localStorage.getItem("isDark");
+      if (isDark === null) {
+        localStorage.setItem("isDark", "1");
+        isDark = "1";
+      }
+      this.$vuetify.theme.dark = isDark === "1";
 
-    if (this.isAuthenticated) {
-      this.$router.push({ name: "Home" });
-    } else {
-      this.$router.push({ name: "Login" });
+      if (this.isAuthenticated) {
+        await this.$router.push({ name: "Home" });
+      } else {
+        await this.$router.push({ name: "Login" });
+      }
+      await this.$store.dispatch("whoAmI");
+    } finally {
+      this.isInitiated = true;
     }
   },
 };

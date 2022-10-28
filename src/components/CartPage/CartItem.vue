@@ -6,16 +6,18 @@
       </v-col>
       <v-col cols="4" align-self="center">
         <v-row>
-          <span>Double Burger</span>
+          <span>{{ foodName }}</span>
         </v-row>
         <v-row>
-          <span>25$</span>
+          <span>{{ price }}$</span>
         </v-row>
       </v-col>
       <v-col cols="4" class="d-flex justify-center">
         <v-row class="d-flex justify-center align-center">
           <v-btn
+            :loading="isLoading"
             x-small
+            @click="subtract"
             height="38"
             right
             rounded
@@ -24,8 +26,16 @@
           >
             <v-icon>mdi-minus</v-icon>
           </v-btn>
-          <span>2</span>
-          <v-btn x-small height="38" rounded class="ml-8" color="btnPrimary">
+          <span>{{ count }}</span>
+          <v-btn
+            :loading="isLoading"
+            @click="add"
+            x-small
+            height="38"
+            rounded
+            class="ml-8"
+            color="btnPrimary"
+          >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-row>
@@ -37,5 +47,14 @@
 <script>
 export default {
   name: "CartItem",
+  props: ["id", "foodName", "foodId", "count", "price", "isLoading"],
+  methods: {
+    add() {
+      this.$emit("change", { count: this.count + 1, foodId: this.foodId });
+    },
+    subtract() {
+      this.$emit("change", { count: this.count - 1, foodId: this.foodId });
+    },
+  },
 };
 </script>

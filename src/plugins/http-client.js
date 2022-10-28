@@ -13,7 +13,9 @@ const fulfillResponseInterceptor = (response) => Promise.resolve(response.data);
 
 const catchResponseInterceptor = (error) => {
   if (error?.response?.status === 401) {
-    window.location.href = "/login";
+    if (!window.location.href.toLowerCase().includes("/login")) {
+      window.location.href = "/login";
+    }
   }
   throw error;
 };
